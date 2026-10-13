@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Biryani Wars 🍗🔥 - The Ultimate Hyderabadi Showdown</title>
+  <meta name="description" content="Resolve the ultimate group fight: Which Hyderabadi Biryani spot right now? Live voting, distance & hype filters, and raw Hyderabadi street slang!">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800;900&family=Space+Grotesk:wght@500;700&family=Yatra+One&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🍗</text></svg>">
+</head>
+<body>
+  <!-- Ambient Spice Glow Background -->
+  <div class="spice-bg-glow"></div>
+  <div class="spice-particles" id="spiceParticles"></div>
+
+  <!-- Audio elements for Hyderabadi soundbites (Web Audio synthesized / sound FX) -->
+  <audio id="audioSizzle" preload="auto"></audio>
+
+  <!-- Top Banner / Live Marquee -->
+  <header class="hero-header">
+    <div class="top-tagline">
+      <span class="badge-live">🔴 LIVE PULLING</span>
+      <span>"Ustaad! Aaj biryani kahan khaare? Paradise bolte chappal padti!"</span>
+      <span class="badge-time" id="currentTimeBadge"></span>
+    </div>
+
+    <div class="header-main">
+      <div class="logo-area">
+        <div class="handi-icon-wrapper">
+          <span class="handi-emoji">🍲</span>
+          <span class="steam s1">~</span>
+          <span class="steam s2">~</span>
+          <span class="steam s3">~</span>
+        </div>
+        <div>
+          <h1 class="glitch-title" data-text="BIRYANI WARS">BIRYANI WARS</h1>
+          <p class="hero-subtitle">HYDERABADI GROUP DECIDER 2026 • <em>"Khaate ki maarte?!"</em></p>
+        </div>
+      </div>
+
+      <!-- Quick Room / Group Mode Header Actions -->
+      <div class="header-actions">
+        <button id="btnSpinWheel" class="btn-neon-action pulse">
+          <span class="btn-icon">🎡</span>
+          <span>Dhanda Bandh, Spin Karo!</span>
+        </button>
+        <button id="btnShareRoom" class="btn-glass">
+          <span class="btn-icon">🔗</span>
+          <span>Share Link to Gang</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Sound / Slang Alert Ticker -->
+  <div class="slang-ticker-wrap">
+    <div class="ticker-label">🚨 TRAFFIC & POLICE ALERT:</div>
+    <div class="ticker-content" id="slangTicker">
+      "Ustaad, Tolichowki Flyover pe jam lag gaya... Rumaali roti thandi hori!" • "Charminar lane mein auto fas gaya miyan!" • "Rethi Bowli signal pe challan katega helmet pehno!" • "Mutton dum fresh utra abhi 15 min pehle!"
+    </div>
+  </div>
+
+  <main class="app-layout">
+    <!-- LEFT PANEL: Controls & Filters & Add Secret Spot -->
+    <aside class="sidebar-panel">
+      <!-- Area / Distance Selector -->
+      <div class="glass-card control-card">
+        <div class="card-title-row">
+          <h3>📍 Where is the Gang Right Now?</h3>
+          <span class="tooltip" title="Filters spots according to real Hyderabad traffic & geography">ℹ️</span>
+        </div>
+        <p class="card-hint">Choose your starting adda (zone):</p>
+        <div class="zone-selector" id="zoneSelector">
+          <button class="zone-pill active" data-zone="all">All Hyderabad</button>
+          <button class="zone-pill" data-zone="Old City">Old City (Charminar)</button>
+          <button class="zone-pill" data-zone="Tolichowki / Mehdipatnam">Tolichowki / Mehdipatnam</button>
+          <button class="zone-pill" data-zone="Secunderabad">Secunderabad / Marredpally</button>
+          <button class="zone-pill" data-zone="Banjara / Jubilee">Banjara / Jubilee Hills</button>
+          <button class="zone-pill" data-zone="Gachibowli / Madhapur">Hitec City / Madhapur</button>
+          <button class="zone-pill" data-zone="Lakdikapul / Abids">Lakdikapul / Nampally</button>
+        </div>
+
+        <div class="distance-filter-wrap">
+          <div class="filter-header-flex">
+            <label for="maxDistanceRange"><strong>Max Bhagna Radius:</strong> <span id="distVal">25 km</span></label>
+            <span class="petrol-warning" id="petrolWarning">🚗 "Petrol ka paisa baap dega kya?"</span>
+          </div>
+          <input type="range" id="maxDistanceRange" min="2" max="30" value="25" step="1">
+          <div class="range-labels">
+            <span>2 km (Galli ke kone pe)</span>
+            <span>15 km (ORR Touch)</span>
+            <span>30 km (Shamshabad Airport)</span>
+          </div>
+        </div>
+
+        <!-- Biryani Taste & Vibe Tags -->
+        <div class="tag-filters">
+          <span class="tag-title">Spice & Style:</span>
+          <div class="tags-group" id="tagFilters">
+            <button class="filter-chip active" data-tag="all">Sab Chalega</button>
+            <button class="filter-chip" data-tag="Mutton Dum Specialist">🐐 Mutton Dum Only</button>
+            <button class="filter-chip" data-tag="Late Night 2AM">🌙 Late Night Adda</button>
+            <button class="filter-chip" data-tag="Spicy Andhra-Hyderabadi">🌶️ Aag Laga Dega Spice</button>
+            <button class="filter-chip" data-tag="Secret Cult Spot">🤫 Secret Cult Spot</button>
+            <button class="filter-chip" data-tag="Zafrani Royal">👑 Zafrani Shahi</button>
+          </div>
+        </div>
+
+        <!-- Search Bar -->
+        <div class="search-box">
+          <span class="search-icon">🔍</span>
+          <input type="text" id="searchInput" placeholder="Search spot name, area, or 'marfa' vibes...">
+          <button id="clearSearch" class="btn-clear hidden">✕</button>
+        </div>
+      </div>
+
+      <!-- Add Secret Spot (Underground Hyderabadi spots AI doesn't know) -->
+      <div class="glass-card secret-spot-card">
+        <div class="secret-header">
+          <div class="secret-badge">🤫 TOP SECRET UNDERGROUND SPOT</div>
+          <h3>Add Your Secret Galli Adda</h3>
+          <p class="secret-subtext">AI ko maloom nahi, bas asli padosi jaante hain. Daalo idhar!</p>
+        </div>
+
+        <form id="addSecretSpotForm" class="secret-form">
+          <div class="form-group">
+            <label for="newSpotName">Adda Name *</label>
+            <input type="text" id="newSpotName" placeholder="e.g. Chacha Miyan Ki Handi, Bismillah Galli" required>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="newSpotArea">Galli / Area *</label>
+              <select id="newSpotArea" required>
+                <option value="Old City">Old City (Charminar/Moghulpura)</option>
+                <option value="Tolichowki / Mehdipatnam">Tolichowki / Mehdipatnam</option>
+                <option value="Lakdikapul / Abids">Lakdikapul / Nampally / Malakpet</option>
+                <option value="Secunderabad">Secunderabad / Sindhi Colony</option>
+                <option value="Banjara / Jubilee">Banjara / Jubilee Hills</option>
+                <option value="Gachibowli / Madhapur">Gachibowli / Madhapur</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="newSpotPrice">Avg Price for 2</label>
+              <input type="text" id="newSpotPrice" placeholder="e.g. ₹350 (Full Plate)">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="newSpotSpecialty">Must Order Item</label>
+            <input type="text" id="newSpotSpecialty" placeholder="e.g. Double Gosht Biryani + Tala Hua Gosht">
+          </div>
+
+          <div class="form-group">
+            <label for="newSpotWarning">Local Warning / Parking Scene</label>
+            <input type="text" id="newSpotWarning" placeholder="e.g. Auto mat lao, bike ko side gully mein lagao!">
+          </div>
+
+          <button type="submit" class="btn-secret-submit" id="btnAddSpot">
+            <span>🔥 Add To Fight (Asli Biryani Spot)</span>
+          </button>
+        </form>
+      </div>
+
+      <!-- Quick Street Slang Audio/Taunt Pad -->
+      <div class="glass-card audio-slang-card">
+        <div class="card-title-row">
+          <h4>🗣️ Hyderabadi Reaction Board</h4>
+          <span class="badge-pill">TAP TO TAUNT GANG</span>
+        </div>
+        <div class="slang-buttons-grid" id="slangButtons">
+          <!-- Filled by JS -->
+        </div>
+      </div>
+    </aside>
+
+    <!-- RIGHT/CENTER: Live Voting Arena & Leaderboard -->
+    <section class="main-content">
+      <!-- Live Winner Callout / Consensus Tracker -->
+      <div class="glass-card consensus-banner" id="consensusBanner">
+        <div class="consensus-left">
+          <div class="trophy-pulse">👑</div>
+          <div>
+            <div class="consensus-sub">CURRENT HYDERABADI CONSENSUS LEADER</div>
+            <h2 class="winner-name" id="winnerSpotName">Calculating Votes...</h2>
+            <div class="winner-meta" id="winnerMeta">Waiting for gang votes</div>
+          </div>
+        </div>
+        <div class="consensus-right">
+          <div class="vote-count-large" id="winnerVotesBadge">0 VOTES</div>
+          <button id="btnLockDecision" class="btn-lock">
+            <span>🔒 "Pakka Final Karle Re!"</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Arena Filters Bar & Stats -->
+      <div class="arena-topbar">
+        <div class="spots-count-text">
+          Showing <strong id="visibleSpotsCount">0</strong> Authentic Hyderabadi Biryani Addas
+        </div>
+        <div class="sort-actions">
+          <label for="sortSelector">Sort By:</label>
+          <select id="sortSelector">
+            <option value="votes">🔥 Most Votes (Janta Choice)</option>
+            <option value="spice">🌶️ Spice Level (Dimaag Ghumao)</option>
+            <option value="distance">📍 Distance (Kareeb Wala)</option>
+            <option value="stealth">🤫 Secret Spots First (AI-Free)</option>
+          </select>
+          <button id="btnResetVotes" class="btn-text-danger" title="Reset all votes to 0">🔄 Reset Votes</button>
+        </div>
+      </div>
+
+      <!-- Error / Slang Alert Modal / Toast Box -->
+      <div id="slangToastContainer" class="slang-toast-container"></div>
+
+      <!-- Cards Grid of Biryani Spots -->
+      <div class="spots-grid" id="spotsGrid">
+        <!-- Rendered dynamically by script.js -->
+      </div>
+    </section>
+  </main>
+
+  <!-- Spin The Wheel Modal (Decision Crisis Solver) -->
+  <div class="modal-overlay hidden" id="wheelModal">
+    <div class="modal-box wheel-modal-box">
+      <button class="modal-close" id="btnCloseWheel">✕</button>
+      <div class="modal-header">
+        <span class="modal-emoji">🎡</span>
+        <h2>Decision Paralysis Resolver 3000</h2>
+        <p class="sub">Jab doston mein marfa aur ladayi shuru ho jaye, qismat pe chodo!</p>
+      </div>
+
+      <div class="wheel-container">
+        <div class="wheel-pointer">▼</div>
+        <canvas id="wheelCanvas" width="380" height="380"></canvas>
+      </div>
+
+      <div class="wheel-controls">
+        <button id="btnSpinNow" class="btn-spin-wheel">SPIN KARO USTAAD! 🎲</button>
+        <div id="wheelResult" class="wheel-result-box hidden">
+          <div class="wheel-result-label">Aaj Ka Mukaddar:</div>
+          <div class="wheel-result-title" id="wheelResultTitle">---</div>
+          <div class="wheel-result-dialogue" id="wheelResultDialogue">---</div>
+          <button id="btnAcceptWheel" class="btn-accept-choice">Lock Karlo, Gaadi Nikalo! 🚗💨</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Locked Decision Summary Modal -->
+  <div class="modal-overlay hidden" id="lockedModal">
+    <div class="modal-box locked-modal-box">
+      <button class="modal-close" id="btnCloseLocked">✕</button>
+      <div class="locked-celebration">🎉 🍗 🏆 🌶️</div>
+      <h2 id="lockedTitle">MAJLIS FINAL HO GAYI!</h2>
+      <p class="locked-subtitle" id="lockedSubtitle">No more bakwaas, sab seedha idhar pohcho:</p>
+
+      <div class="locked-card-highlight" id="lockedCardContent">
+        <!-- Filled by JS -->
+      </div>
+
+      <div class="whatsapp-share-box">
+        <p>Send WhatsApp warning to the gang:</p>
+        <button id="btnSendWhatsApp" class="btn-whatsapp">
+          <span>📲 Send to WhatsApp Group with Hyderabad Slang Warning</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <footer class="app-footer">
+    <p>Crafted with pure Zafrani Dum & Irani Chai love for Hyderabadis ❤️ • <em>"Khao, peeo, aish karo miyan!"</em></p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
